@@ -20,6 +20,7 @@ import br.com.manell.cursomc.domain.PagamentoComCartao;
 import br.com.manell.cursomc.domain.Pedido;
 import br.com.manell.cursomc.domain.Produto;
 import br.com.manell.cursomc.domain.enums.EstadoPagamento;
+import br.com.manell.cursomc.domain.enums.Perfil;
 import br.com.manell.cursomc.domain.enums.TipoCliente;
 import br.com.manell.cursomc.repositories.CategoriaRepository;
 import br.com.manell.cursomc.repositories.CidadeRepository;
@@ -120,18 +121,22 @@ public class DBService {
 
 		// CLIENTE - ENDERECO
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "privepecas@gmail.com", "052.556.589-78", TipoCliente.PESSOAFISICA, pe.encode("123456"));
+		Cliente cli1 = new Cliente(null, "Maria Silva", "privepecas@gmail.com", "50575017040", TipoCliente.PESSOAFISICA, pe.encode("123456"));
 		cli1.getTelefones().addAll(Arrays.asList("61 9 8459-6789", "61 9 9264-7587"));
+		
+		Cliente cli2 = new Cliente(null, "Manell Santos", "manell@gmail.com", "98399322091", TipoCliente.PESSOAFISICA, pe.encode("123456"));
+		cli2.getTelefones().addAll(Arrays.asList("61 9 8459-6789"));
+		cli2.addPerfil(Perfil.ADMIN);
 
-		Endereco e1 = new Endereco(null, "Rua Valdomira Pimenta", "25", "casa 25", "Chácaras Rancho Alegre",
-				"38412-685", cli1, c1);
-		Endereco e2 = new Endereco(null, "Rua Sertão de Canudos", "101", "apt 101", "Vila Perus", "05208-010", cli1,
-				c2);
+		Endereco e1 = new Endereco(null, "Rua Valdomira Pimenta", "25", "casa 25", "Chácaras Rancho Alegre", "38412-685", cli1, c1);
+		Endereco e2 = new Endereco(null, "Rua Sertão de Canudos", "101", "apt 101", "Vila Perus", "05208-010", cli1, c2);
+		Endereco e3 = new Endereco(null, "Rua Floriano", "101", null, "Vila Perus", "05208-010", cli2, c2);
 
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
 
-		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
 
 		// PEDIDO - PAGAMENTO - CLIENTE_PEDIDO
 
